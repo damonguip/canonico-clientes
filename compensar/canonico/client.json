@@ -1,0 +1,242 @@
+{
+  "openapi" : "3.0.2",
+  "info" : {
+    "title" : "Clients API",
+    "version" : "1.0.0",
+    "description" : "Compensar Clients API",
+    "license" : {
+      "name" : "Apache 2.0",
+      "url" : "https://www.apache.org/licenses/LICENSE-2.0"
+    }
+  },
+  "paths" : {
+    "/clients" : {
+      "summary" : "Path used to manage the list of clients.",
+      "description" : "The REST endpoint/path used to list and create zero or more `Client` entities.  This path contains a `GET` and `POST` operation to perform the list and create tasks, respectively.",
+      "get" : {
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/Client"
+                  }
+                }
+              }
+            },
+            "description" : "Successful response - returns an array of `Client` entities."
+          }
+        },
+        "operationId" : "getclients",
+        "summary" : "List All clients",
+        "description" : "Gets a list of all `Client` entities."
+      },
+      "post" : {
+        "requestBody" : {
+          "description" : "A new `Client` to be created.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Client"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Successful response."
+          }
+        },
+        "operationId" : "createClient",
+        "summary" : "Create a Client",
+        "description" : "Creates a new instance of a `Client`."
+      }
+    },
+    "/clients/{clientId}" : {
+      "summary" : "Path used to manage a single Client.",
+      "description" : "The REST endpoint/path used to get, update, and delete single instances of an `Client`.  This path contains `GET`, `PUT`, and `DELETE` operations used to perform the get, update, and delete tasks, respectively.",
+      "get" : {
+        "responses" : {
+          "200" : {
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/Client"
+                }
+              }
+            },
+            "description" : "Successful response - returns a single `Client`."
+          }
+        },
+        "operationId" : "getClient",
+        "summary" : "Get a Client",
+        "description" : "Gets the details of a single instance of a `Client`."
+      },
+      "put" : {
+        "requestBody" : {
+          "description" : "Updated `Client` information.",
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/Client"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "202" : {
+            "description" : "Successful response."
+          }
+        },
+        "operationId" : "updateClient",
+        "summary" : "Update a Client",
+        "description" : "Updates an existing `Client`."
+      },
+      "delete" : {
+        "responses" : {
+          "204" : {
+            "description" : "Successful response."
+          }
+        },
+        "operationId" : "deleteClient",
+        "summary" : "Delete a Client",
+        "description" : "Deletes an existing `Client`."
+      },
+      "parameters" : [ {
+        "name" : "clientId",
+        "description" : "A unique identifier for a `Client`.",
+        "schema" : {
+          "type" : "string"
+        },
+        "in" : "path",
+        "required" : true
+      } ]
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Client" : {
+        "title" : "Root Type for Client",
+        "description" : "Client",
+        "type" : "object",
+        "properties" : {
+          "firstName" : {
+            "type" : "string"
+          },
+          "lastName" : {
+            "type" : "string"
+          },
+          "id" : {
+            "format" : "int32",
+            "type" : "integer"
+          },
+          "address" : {
+            "$ref" : "#/components/schemas/Address",
+            "properties" : {
+              "streetAddress" : {
+                "type" : "string"
+              },
+              "city" : {
+                "type" : "string"
+              },
+              "state" : {
+                "type" : "string"
+              },
+              "postalCode" : {
+                "type" : "string"
+              }
+            }
+          },
+          "phoneNumber" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/PhoneNumber"
+            }
+          }
+        },
+        "example" : {
+          "firstName" : "John",
+          "lastName" : "Smith",
+          "id" : 85234208,
+          "address" : {
+            "streetAddress" : "21 2nd Street",
+            "city" : "New York",
+            "state" : "NY",
+            "postalCode" : "10021"
+          },
+          "phoneNumber" : [ {
+            "type" : "home",
+            "number" : "212 555-1234"
+          }, {
+            "type" : "fax",
+            "number" : "646 555-4567"
+          } ]
+        }
+      },
+      "Address" : {
+        "title" : "Root Type for Address",
+        "description" : "Address",
+        "type" : "object",
+        "properties" : {
+          "streetAddress" : {
+            "type" : "string"
+          },
+          "city" : {
+            "type" : "string"
+          },
+          "state" : {
+            "type" : "string"
+          },
+          "postalCode" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "streetAddress" : "21 2nd Street",
+          "city" : "New York",
+          "state" : "NY",
+          "postalCode" : "10021"
+        }
+      },
+      "PhoneNumber" : {
+        "title" : "Root Type for PhoneNumber",
+        "description" : "PhoneNumber",
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "number" : {
+            "type" : "string"
+          }
+        },
+        "example" : {
+          "type" : "home",
+          "number" : "212 555-1234"
+        }
+      }
+    },
+    "securitySchemes" : {
+      "compensar_oauth" : {
+        "flows" : {
+          "password" : {
+            "tokenUrl" : "https://compensar.com",
+            "refreshUrl" : "https://compensar.com",
+            "scopes" : {
+              "clients-scope-1" : ""
+            }
+          }
+        },
+        "type" : "oauth2",
+        "description" : "Compensar OAuth Security Schema "
+      }
+    }
+  },
+  "security" : [ {
+    "compensar_oauth" : [ "clients-scope-1" ]
+  } ]
+}
